@@ -16,20 +16,20 @@ namespace ToysAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<List<Models.Type>>> GetTypes()
         {
-            return Ok(await context.types.ToListAsync());
+            return Ok(await context.Types.ToListAsync());
         }
 
         [HttpPost]
         public async Task<ActionResult<List<Models.Type>>> AddType(string typeName)
         {
-            context.types.Add(new Models.Type()
+            context.Types.Add(new Models.Type()
             {
                 TypeName = typeName
             });
 
             await context.SaveChangesAsync();
 
-            return Ok(await context.types.ToListAsync());
+            return Ok(await context.Types.ToListAsync());
         }
     }
 }

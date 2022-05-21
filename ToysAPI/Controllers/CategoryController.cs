@@ -16,19 +16,19 @@ namespace ToysAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<List<Models.Category>>> getCategories()
         {
-            return Ok(await context.categories.ToListAsync());
+            return Ok(await context.Categories.ToListAsync());
         }
 
         [HttpPost]
         public async Task<ActionResult<List<Models.Category>>> addCategory(string categoryName)
         {
-            context.categories.Add(new Models.Category
+            context.Categories.Add(new Models.Category
             {
                 CategoryName = categoryName
             });
             await context.SaveChangesAsync();
 
-            return Ok(await context.categories.ToListAsync());
+            return Ok(await context.Categories.ToListAsync());
         }
     }
 }

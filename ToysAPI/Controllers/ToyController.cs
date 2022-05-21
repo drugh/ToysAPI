@@ -16,22 +16,22 @@ namespace ToysAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<List<Models.Toy>>> GetAll()
         {
-            return Ok(await context.toys.ToListAsync());
+            return Ok(await context.Toys.ToListAsync());
         }
 
         [HttpPost]
         public async Task<ActionResult<List<Models.Toy>>> AddToy(Models.Toy toy)
         {
-            context.toys.Add(toy);
+            context.Toys.Add(toy);
             await context.SaveChangesAsync();
 
-            return Ok(await context.toys.ToListAsync());
+            return Ok(await context.Toys.ToListAsync());
         }
 
         [HttpPut]
         public async Task<ActionResult<List<Models.Toy>>> UpdateToy(Models.Toy toy)
         {
-            var dbToy = await context.toys.FindAsync(toy.ToyId);
+            var dbToy = await context.Toys.FindAsync(toy.ToyId);
             if (dbToy == null)
             {
                 return BadRequest("Toy not found");
@@ -44,22 +44,22 @@ namespace ToysAPI.Controllers
 
             await context.SaveChangesAsync();
 
-            return Ok(await context.toys.ToListAsync());
+            return Ok(await context.Toys.ToListAsync());
         }
 
         [HttpDelete]
         public async Task<ActionResult<List<Models.Toy>>> DeleteToy(int id)
         {
-            var dbToy = await context.toys.FindAsync(id);
+            var dbToy = await context.Toys.FindAsync(id);
             if (dbToy == null)
             {
                 return BadRequest("Toy not found");
             }
 
-            context.toys.Remove(dbToy);
+            context.Toys.Remove(dbToy);
             await context.SaveChangesAsync();
 
-            return Ok(await context.toys.ToListAsync());
+            return Ok(await context.Toys.ToListAsync());
         }
 
     }

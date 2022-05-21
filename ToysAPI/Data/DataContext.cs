@@ -9,8 +9,8 @@ namespace ToysAPI.Data
 
         }
 
-        public DbSet<Models.Toy> toys { get; set; }
-        public DbSet<Models.Type> types { get; set; }
-        public DbSet<Models.Category> categories { get; set; }
+        public DbSet<Models.Toy> Toys { get; set; }
+        public DbSet<Models.Type> Types { get; set; }
+        public DbSet<Models.Category> Categories { get; set; }
     }
 }
