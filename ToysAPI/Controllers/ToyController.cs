@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using ToysAPI.Repositories.Interfaces;
 
 namespace ToysAPI.Controllers
 {
@@ -6,60 +7,55 @@ namespace ToysAPI.Controllers
     [Route("[controller]")]
     public class ToyController : Controller
     {
-        private readonly DataContext context;
+        private readonly IToyRepository toyRepository;
 
-        public ToyController(DataContext context)
+        public ToyController(IToyRepository toyRepository)
         {
-            this.context = context;
+            this.toyRepository = toyRepository;
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<Models.Toy>>> GetAll()
+        public ActionResult<List<Models.Toy>> GetAll()
         {
-            return Ok(await context.Toys.ToListAsync());
+            return Ok(toyRepository.GetAllToys());
         }
 
         [HttpPost]
-        public async Task<ActionResult<List<Models.Toy>>> AddToy(Models.Toy toy)
+        public ActionResult<List<Models.Toy>> AddToy(Models.Toy toy)
         {
-            context.Toys.Add(toy);
-            await context.SaveChangesAsync();
-
-            return Ok(await context.Toys.ToListAsync());
+            toyRepository.Insert(toy);
+            
+            return Ok(toyRepository.GetAllToys());
         }
 
         [HttpPut]
-        public async Task<ActionResult<List<Models.Toy>>> UpdateToy(Models.Toy toy)
+        public ActionResult<List<Models.Toy>> UpdateToy(Models.Toy toy)
         {
-            var dbToy = await context.Toys.FindAsync(toy.ToyId);
+            var dbToy = toyRepository.GetToy(toy);
             if (dbToy == null)
             {
-                return BadRequest("Toy not found");
+                return BadRequest("Toy not found!");
             }
-            dbToy.ToyId = toy.ToyId;
-            dbToy.Description = toy.Description;
-            dbToy.Price = toy.Price;
-            dbToy.TypeId = toy.TypeId;
-            dbToy.CategoryId = toy.CategoryId;
-
-            await context.SaveChangesAsync();
-
-            return Ok(await context.Toys.ToListAsync());
+            else
+            {
+                toyRepository.Modify(toy);
+            }
+            return Ok(toyRepository.GetAllToys());
         }
 
         [HttpDelete]
-        public async Task<ActionResult<List<Models.Toy>>> DeleteToy(int id)
+        public ActionResult<List<Models.Toy>> DeleteToy(int id)
         {
-            var dbToy = await context.Toys.FindAsync(id);
+            var dbToy = toyRepository.GetAllToys().Find(t => t.ToyId == id);
             if (dbToy == null)
             {
-                return BadRequest("Toy not found");
+                return BadRequest("Toy not found!");
             }
-
-            context.Toys.Remove(dbToy);
-            await context.SaveChangesAsync();
-
-            return Ok(await context.Toys.ToListAsync());
+            else
+            {
+                toyRepository.Delete(dbToy);
+            }
+            return Ok(toyRepository.GetAllToys());
         }
 
     }

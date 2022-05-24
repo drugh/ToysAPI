@@ -1,5 +1,7 @@
 global using ToysAPI.Data;
 global using Microsoft.EntityFrameworkCore;
+using ToysAPI.Repositories.Interfaces;
+using ToysAPI.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +12,7 @@ builder.Services.AddDbContext<DataContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
+builder.Services.AddScoped<IToyRepository, ToyRepository>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
